@@ -1,3 +1,5 @@
+from clientes import Cliente
+
 class CadastroCliente:
     
     def __init__(self) -> None:
@@ -21,14 +23,13 @@ class CadastroCliente:
             
     def alterar_cadastro(self, cpf):
         if cpf not in self.cadastrados:
-            print('Esse CPF não está cadastrado')
+            print('CPF não cadastrado')
             return
-            #raise ValueError('Esse CPF não está cadastrado')
         cliente = self.cadastrados[cpf]
         alteracao = input('O que deseja alterar? ')
         
         while alteracao.lower() not in ('nome', 'email', 'cpf'):
-            alteracao = input('Erro. Digite novamente o que quer alterar: ')
+            alteracao = input('Não foi possível encontrar o critério informado. O que deseja alterar? ')
         
         if alteracao == 'nome':
             novo_nome = input('Digite o novo nome: ')
@@ -47,28 +48,29 @@ class CadastroCliente:
         
     def run(self):
         
-        print('Menu\n1 - Novo cadastro\n2 - Visualizar cadastros\n3 - Alterar cadastro\n0 - Sair')
-        o_que_fazer = int(input('O que deseja fazer? '))
+        print('Menu\n1 - Novo cadastro\n2 - Procurar cadastro\n3 - Alterar cadastro\n0 - Sair')
+        acao_menu = int(input('O que deseja fazer? '))
         
-        while o_que_fazer != 0:
+        while acao_menu != 0:
             
-            if o_que_fazer == 1:
+            if acao_menu == 1:
                 print('===Novo cadastro===\n')
                 self.cadastrar_novo()
                 print('\n===Fim do cadastro===')
                 
-            elif o_que_fazer == 2:
-                print('===Visualização dos cadastrados===\n')
-                self.visualizar_cadastros()
+            elif acao_menu == 2:
+                print('===Procurar cadastrado===\n')
+                cpf_a_procurar = input('Digite o CPF: ')
+                self.visualizar_cadastro(cpf_a_procurar)
                 print('\n===Fim da visualização===')
             
-            elif o_que_fazer == 3:
+            elif acao_menu == 3:
                 print('===Alterar cadastros===\n')
                 cpf_a_alterar = input('Digite o CPF a ser alterado: ')
                 self.alterar_cadastro(cpf_a_alterar)
                 print('\n===Fim da alteração===')
             
             print('Menu\n1 - Novo cadastro\n2 - Visualizar cadastros\n3 - Alterar cadastro\n0 - Sair')
-            o_que_fazer = int(input("O que deseja fazer? "))
+            acao_menu = int(input("O que deseja fazer? "))
         
         print('===Fim===')
