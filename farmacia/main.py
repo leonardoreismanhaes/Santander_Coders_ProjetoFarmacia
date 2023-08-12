@@ -1,4 +1,7 @@
-from cadastro_cliente import *
+from clientes import *
+from medicamentos import *
+from laboratorio import *
+from vendas import *
 
 class Menu:
 
