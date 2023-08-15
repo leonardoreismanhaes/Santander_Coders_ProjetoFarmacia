@@ -28,8 +28,8 @@ A farmácia precisa dos seguintes serviços (que devem ser disponibilizados para
 
 * Deverá ser possível emitir relatórios:
     * De listagem de clientes, cadastrados por nome, em ordem alfabética crescrente (A-Z), especificando os dados do cliente
-    * De listagem de medicamentos, por ordem alfabética
-    * De listagem de medicamentos Quimioterápicos ou Fitoterápicos
+    ~~* De listagem de medicamentos, por ordem alfabética~~
+    ~~* De listagem de medicamentos Quimioterápicos ou Fitoterápicos~~
     * Estatísticas dos atendimentos realizados no dia (considere o dia como o tempo que o menu está em execução. Quando for sair do programa, deve ser emitido este relatório) contendo:
         * Remédio mais vendido, contendo a quantidade e o valor total
         * Quantidade de pessoas atendidas
