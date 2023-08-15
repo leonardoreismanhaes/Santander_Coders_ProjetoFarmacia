@@ -1,14 +1,14 @@
 class Cliente:
 
-    def __init__(self, nome: str, email:str, cpf: str) -> None:
+    def __init__(self, nome: str, cpf: str, dt_nascimento: str) -> None:
         self.nome = nome
-        self.email = email
         self.cpf = cpf
+        self.dt_nascimento = dt_nascimento
 
     def __repr__(self) -> str:
         representacao = 'Nome: ' + self.nome
-        representacao += '\nE-mail: ' + self.email
         representacao += '\nCPF: ' + self.cpf
+        representacao += '\nData de nascimento: ' + self.dt_nascimento
         return representacao
 class CadastroCliente:
     
@@ -17,11 +17,11 @@ class CadastroCliente:
         
     def cadastrar_novo(self) -> None:
         nome = input("Digite o nome do cliente: ")
-        email = input('Digite o email do cliente: ')
         cpf = input('Digite o CPF do cliente: ')
+        dt_nascimento = input('Digite a data de nascimento do cliente: ')
         
         if cpf not in self.cadastrados:
-            novo_cliente = Cliente(nome, email, cpf)
+            novo_cliente = Cliente(nome, dt_nascimento, cpf)
             self.cadastrados[cpf] = novo_cliente
         else:
             raise ValueError('CPF já cadastrado')
@@ -40,16 +40,16 @@ class CadastroCliente:
         cliente = self.cadastrados[cpf]
         alteracao = input('O que deseja alterar? ')
         
-        while alteracao.lower() not in ('nome', 'email', 'cpf'):
+        while alteracao.lower() not in ('nome', 'nascimento', 'cpf'):
             alteracao = input('Não foi possível encontrar o critério informado. O que deseja alterar? ')
         
         if alteracao == 'nome':
             novo_nome = input('Digite o novo nome: ')
             cliente.nome = novo_nome
         
-        elif alteracao == 'email':
-            novo_email = input('Digite o novo e-mail: ')
-            cliente.email = novo_email
+        elif alteracao == 'nascimento':
+            nova_dt_nascimento = input('Digite a nova data de nascimento: ')
+            cliente.dt_nascimento = nova_dt_nascimento
             
         elif alteracao == 'cpf':
             novo_cpf = input('Digite o novo CPF: ')
