@@ -32,11 +32,13 @@ class CadastroMedicamento:
         nome = input("Digite o nome do medicamento: ")
         comp_principal = input('Digite o princípio ativo do medicamento: ')
         laboratorio = input('Digite o nome do laboratório: ') 
-        # if (laboratorio not in Laboratorio)
+        while (laboratorio not in Laboratorio.dic_laboratorios):
+            print("Laboratório não cadastrado.")
+            laboratorio = input('Digite o nome do laboratório: ') 
         descricao = input('Digite a descrição do medicamento: ') 
         receita = input('O medicamento precisa de receita (S/s/N/n): ').lower
         while receita not in ['s', 'S', 'n', 'N']:
-            print('Digite um valor válido')
+            print('Digite um valor válido.')
             receita = input('O medicamento precisa de receita (S/s/N/n): ').lower
         if (receita in ['s', 'S']):
             novo_medicamento = Quimioterapicos(nome, comp_principal, laboratorio, descricao, receita)
