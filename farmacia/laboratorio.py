@@ -7,4 +7,11 @@ class Laboratorio:
         self.cidade = cidade
         self.estado = estado
 
-    
+    def __repr__(self) -> str:
+        representacao = 'Nome: ' + self.nome
+        representacao += '\Endereço: ' + self.endereco
+        representacao += '\nTelefone: ' + self.telefone
+        representacao += '\nCidade: ' + self.cidade
+        representacao += '\nEstado: ' + self.estado
+        return representacao
+
