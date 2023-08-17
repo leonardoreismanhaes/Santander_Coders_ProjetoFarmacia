@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import date
 from functions.clientes import Cliente
+from functions.laboratorios import Laboratorio
 
 st.set_page_config(page_title="Farmacia E-commerce")
 
@@ -34,7 +35,26 @@ with cad_cliente_wind.form("cadastrar_cliente", clear_on_submit=True):
 cont3 = st.container()
 cad_lab_wind = cont3.expander('Cadastrar novo laboratorio')
 
-nome_lab_cad = cad_lab_wind.text_input('Nome do laboratorio: ')
+with cad_lab_wind.form("cadastrar_laboratorio", clear_on_submit=True):
+    nome_lab_cad = st.text_input('Nome: ')
+    endereco_lab_cad = st.text_input('Endereco: ')
+    telefone_lab_cad = st.text_input('Telefone: ')
+    cidade_lab_cad = st.text_input('Cidade: ')
+    estado_lab_cad = st.text_input('Estado: ')
+
+    submitted = st.form_submit_button("CADASTRAR")
+    if nome_lab_cad and endereco_lab_cad and telefone_lab_cad and cidade_lab_cad and estado_lab_cad:
+        if submitted:
+            try:
+                Laboratorio.cadastrar(nome_lab_cad.title(), endereco_lab_cad, telefone_lab_cad,
+                                      cidade_lab_cad, estado_lab_cad)
+                st.success('Cadastro realizado')
+            except:
+                e = ValueError('Laboratorio já cadastrado')
+                st.exception(e)
+
+    else:
+        st.info('Preencha com todos os dados')
 
 cont4 = st.container()
 cad_medicamento_wind = cont4.expander('Cadastrar novo medicamento')
