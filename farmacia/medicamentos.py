@@ -30,16 +30,14 @@ class Quimioterapicos(Medicamento):
         return representacao
 
 class Fitoterapicos(Medicamento):
-    def __init__(self, nome, comp_principal, laboratorio, descricao, receita, preco, tipo_medicamento):
+    def __init__(self, nome, comp_principal, laboratorio, descricao, preco, tipo_medicamento):
         super().__init__(nome, comp_principal, laboratorio, descricao, preco, tipo_medicamento)
-        self.receita = receita
 
     def __repr__(self):
         representacao = super().__repr__()
-        representacao += '\nNecessita Receita: ' + ('Sim' if self.receita else 'Não')
+        representacao += '\nNecessita Receita: ' + ('Não')
         return representacao  
         
-
 class CadastroMedicamentos:
     def __init__(self):
         self.medicamentos = []
@@ -50,7 +48,13 @@ class CadastroMedicamentos:
         comp_principal = input("Composto do medicamento: ")
         nome_laboratorio = input("Laboratório do medicamento: ")
         descricao = input("Descrição do medicamento: ")
-        receita = input("Necessita receita? (S/N): ").lower() == "s"
+        if tipo_medicamento == "quimioterapico":
+            receita = input("Necessita receita? (S/N): ").lower() == "s"
+        
+        if tipo_medicamento == "quimioterapico" and not receita:
+            print("Medicamento quimioterápico requer receita. O medicamento não foi cadastrado.")
+            return
+        
         preco = float(input("Preço do medicamento: "))
 
         laboratorio = cadastro_laboratorios.buscar_laboratorio(nome_laboratorio)
@@ -62,13 +66,20 @@ class CadastroMedicamentos:
                 self.medicamentos.append(medicamento)
                 print("Medicamento quimioterápico cadastrado com sucesso!")
             elif tipo_medicamento == "fitoterapico":
-                medicamento = Fitoterapicos(nome, comp_principal, laboratorio, descricao, receita, preco,"fitoterapico")
+                medicamento = Fitoterapicos(nome, comp_principal, laboratorio, descricao, preco,"fitoterapico")
                 self.medicamentos.append(medicamento)
                 print("Medicamento fitoterápico cadastrado com sucesso!")
         else:
             print("Laboratório não encontrado. O medicamento não foi cadastrado.")
 
-    def buscar_medicamento_por_nome(self, nome):
+    def buscar_medicamento_por_nome(self):
+        nome_medicamento = input("Digite o nome do medicamento: ")
+        for medicamento in self.medicamentos:
+            if nome_medicamento.lower() in medicamento.nome.lower():
+                return print(medicamento)
+        return print("Medicamento não encontrado.")
+    
+    def buscar_medicamento_por_nome1(self,nome):
         for medicamento in self.medicamentos:
             if nome.lower() in medicamento.nome.lower():
                 return medicamento
