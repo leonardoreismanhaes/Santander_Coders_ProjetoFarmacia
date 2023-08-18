@@ -34,8 +34,8 @@ class CadastroLaboratorio:
 
     def listar_laboratorios(self):
 
-        sorted_dic = sorted(Laboratorio.dic_laboratorios.items(), key=lambda x:x[0])
-        for cadastro in sorted_dic:
-            print(cadastro)
+        sorted_dic = sorted(Laboratorio.dic_laboratorios.values(), key=lambda lab:lab.nome)
+        for lab in sorted_dic:
+            print(lab)
     
 
