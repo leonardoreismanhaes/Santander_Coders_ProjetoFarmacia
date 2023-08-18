@@ -36,6 +36,8 @@ class CadastroCliente:
                 print('CPF não cadastrado.')
 
     def listar_clientes(self):
-        sorted_dic = sorted(Cliente.dic_clientes.items(), key=lambda x:x[0])
-        for cadastro in sorted_dic:
-            print(cadastro)
+        sorted_dic = sorted(Cliente.dic_clientes.values(), key=lambda cliente:cliente.nome)
+        for cliente in sorted_dic:
+            print(cliente)
+
+
