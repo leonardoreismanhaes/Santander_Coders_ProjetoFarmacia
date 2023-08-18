@@ -8,7 +8,7 @@ cont1 = st.container()
 
 titulo_busca = cont1.title('Buscar laboratorio')
 
-with cont1.form("buscar_cliente", clear_on_submit=True):
+with cont1.form("buscar_lab", clear_on_submit=True):
     nome_lab_busca = st.text_input('Nome do laboratorio: ')
 
     submitted = st.form_submit_button("BUSCAR")

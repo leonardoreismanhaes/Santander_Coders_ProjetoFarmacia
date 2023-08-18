@@ -2,6 +2,7 @@ import streamlit as st
 from datetime import date
 from functions.clientes import Cliente
 from functions.laboratorios import Laboratorio
+from functions.medicamentos import Medicamentos, Fitoterapicos, Quimioterapicos
 
 st.set_page_config(page_title="Farmacia E-commerce")
 
@@ -58,8 +59,48 @@ with cad_lab_wind.form("cadastrar_laboratorio", clear_on_submit=True):
 
 cont4 = st.container()
 cad_medicamento_wind = cont4.expander('Cadastrar novo medicamento')
+tipo_medicamento_cad = cad_medicamento_wind.radio('Tipo do medicamento: ', options=['Fitoterapico', 'Quimioterapico'],
+                                horizontal=True)
+if tipo_medicamento_cad == 'Quimioterapico':
+    receita_medicamento_cad = cad_medicamento_wind.selectbox('precisa de receita: ', options=['Não', 'Sim'])
 
-nome_medicamento_cad = cad_medicamento_wind.text_input('Nome do medicamento: ')
+with cad_medicamento_wind.form("cadastrar_medicamento", clear_on_submit=True):
+    nome_medicamento_cad = st.text_input('Nome: ')
+    composto_medicamento_cad = st.text_input('composto: ')
+    laboratorio_medicamento_cad = st.selectbox('laboratorio: ', options=list(Laboratorio.listar()))
+    descricao_medicamento_cad = st.text_area('descricao: ')
+
+    if tipo_medicamento_cad == 'Quimioterapico':
+        submitted = st.form_submit_button("CADASTRAR Quimioterapico")
+        if nome_medicamento_cad and composto_medicamento_cad and laboratorio_medicamento_cad and descricao_medicamento_cad:
+            if submitted:
+                try:
+                    Quimioterapicos.cadastrar(nome_medicamento_cad.title(), composto_medicamento_cad.title(),
+                                              laboratorio_medicamento_cad.title(), descricao_medicamento_cad,
+                                              receita_medicamento_cad)
+                    st.success('Cadastro realizado')
+                except:
+                    e = ValueError('Medicamento já cadastrado')
+                    st.exception(e)
+
+        else:
+            st.info('Preencha com todos os dados')
+    if tipo_medicamento_cad == 'Fitoterapico':
+        submitted = st.form_submit_button("CADASTRAR Fitoterapico")
+        if nome_medicamento_cad and composto_medicamento_cad and laboratorio_medicamento_cad and descricao_medicamento_cad:
+            if submitted:
+                try:
+                    Fitoterapicos.cadastrar(nome_medicamento_cad.title(), composto_medicamento_cad.title(),
+                                            laboratorio_medicamento_cad.title(), descricao_medicamento_cad)
+                    st.success('Cadastro realizado')
+                except:
+                    e = ValueError('Medicamento já cadastrado')
+                    st.exception(e)
+
+        else:
+            st.info('Preencha com todos os dados')
+
+
 
 cont5 = st.container()
 cad_venda_wind = cont5.expander('Registrar nova venda')
