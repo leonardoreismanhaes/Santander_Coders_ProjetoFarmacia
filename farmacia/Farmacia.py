@@ -110,4 +110,23 @@ cad_venda_wind = cont5.expander('Registrar nova venda')
 data_hoje = date.today()
 data_hoje = data_hoje.strftime("%d/%m/%y")
 data_venda = cad_venda_wind.text(f'Hoje é : {data_hoje}')
-medicamento_select = cad_venda_wind.multiselect('nome medicamento: ', options=Medicamentos.listar())
+datacol, horacol = cad_venda_wind.columns(2)
+data_select = datacol.date_input('Data da venda')
+hora_select = horacol.time_input('Horario da venda')
+cliente_select = cad_venda_wind.selectbox('CPF do cliente', options=Cliente.listar())
+medcol, quantcol, addcol = cad_venda_wind.columns([4, 1, 0.8])
+medicamento_select = medcol.selectbox('Medicamento: ', options=Medicamentos.listar())
+quantidade_select = quantcol.number_input('Quantidade:', min_value=1)
+produtos_temp = {}
+
+
+def att_produtos_temp(medicamento, quantidade):
+    produtos_temp[medicamento] = quantidade
+    return produtos_temp
+
+
+add_item_butt = addcol.button('Add item')
+resumo_venda = cad_venda_wind.text_area('Resumo da venda', value=f'CPF: {cliente_select} \n'
+                                                                 f'{produtos_temp.items()} \n'
+                                                                 'Valor total: R$ XXX.XX')
+registrar_venda = cad_venda_wind.button('REGISTRAR')
