@@ -27,7 +27,7 @@ class Laboratorio:
             raise ValueError('Laboratorio já cadastrado')
 
     def listar():
-        lista_ordenada = dict(sorted(Laboratorio.lista_laboratorios.items(), key=lambda item: item[0], reverse=True))
+        lista_ordenada = dict(sorted(Laboratorio.lista_laboratorios.items(), key=lambda item: item[0], reverse=False))
         return lista_ordenada
 
     def buscar(nome):
