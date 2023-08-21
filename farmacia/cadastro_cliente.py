@@ -16,16 +16,25 @@ class CadastroCliente:
         else:
             raise ValueError('CPF já cadastrado')
             
+    def _get_cliente(self, cpf):
+        if cpf in self.cadastrados:
+            return self.cadastrados[cpf]
+        else:
+            return None
+            
     def visualizar_cadastro(self, cpf) -> None:
-        for cpf in self.cadastrados:
-            if cpf == self.cadastrados[cpf]:
-                print(self.cadastrados[cpf])
+        cliente = self._get_cliente(cpf)
+        if cliente:
+            print(cliente)
+        else:
+            print('Cliente não encontrado')
             
     def alterar_cadastro(self, cpf):
-        if cpf not in self.cadastrados:
+        cliente = self._get_cliente(cpf)
+        if not cliente:
             print('CPF não cadastrado')
             return
-        cliente = self.cadastrados[cpf]
+        
         alteracao = input('O que deseja alterar? ')
         
         while alteracao.lower() not in ('nome', 'email', 'cpf'):
@@ -41,18 +50,15 @@ class CadastroCliente:
             
         elif alteracao == 'cpf':
             novo_cpf = input('Digite o novo CPF: ')
-            cliente.cpf = novo_cpf
             self.cadastrados.pop(cpf)
-            
-        self.cadastrados[cliente.cpf] = cliente
+            cliente.cpf = novo_cpf
+            self.cadastrados[novo_cpf] = cliente
         
     def run(self):
-        
         print('Menu\n1 - Novo cadastro\n2 - Procurar cadastro\n3 - Alterar cadastro\n0 - Sair')
         acao_menu = int(input('O que deseja fazer? '))
         
         while acao_menu != 0:
-            
             if acao_menu == 1:
                 print('===Novo cadastro===\n')
                 self.cadastrar_novo()
