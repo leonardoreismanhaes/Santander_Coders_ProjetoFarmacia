@@ -11,6 +11,8 @@ LEN_CPF = 11 # tamanho do campo CPF
 
 class ProdutosVendidos:
 
+    carrinho_produtos = {}
+
     def __init__(self, medicamento: Medicamento, quantidade: int, valor_un: float):
         self.medicamento = medicamento
         self.quantidade = quantidade
@@ -32,29 +34,19 @@ class Vendas:
         self.valor_total = valor_total
 
     def __repr__(self) -> str:
-        pass
-
+        cpf_formatado = f'{self.cliente[:3]}.***.{self.cliente[6:9]}-{self.cliente[9:]}'
+        representacao = f'\nData: {self.data}\nHora: {self.hora}\nCPF: {cpf_formatado}\nProdutos vendidos: {self.produtos_vendidos}\nValor Total: R$ {self.valor_total}\n'
+        return representacao
+    
 class CadastroVenda:
 
     qt_vendas = 0 # quantidade de vendas realizadas no dia  
     qt_med_quimio = 0 # quantidade de medicamentos quimioterápicos vendidos no dia 
-    valor_total_med_quimio = 0 # valor total dos medicamentos quimioterápicos vendidos no dia 
+    valor_med_quimio = 0 # valor total dos medicamentos quimioterápicos vendidos no dia 
     qt_med_fito = 0 # quantidade de medicamentos fitoterápicos vendidos no dia 
-    valor_total_med_fito = 0 # valor total dos medicamentos fitoterápicos vendidos no dia 
-    valor_total = 0
-    carrinho_produtos = {}
-
-    def __init__(self):
-        pass
-
-    def desconto_idade():
-        pass
-
-    def desconto_valor():
-        pass
-
-    def verificar_receita():
-        pass
+    valor_med_fito = 0 # valor total dos medicamentos fitoterápicos vendidos no dia 
+    valor_compra = 0
+    valor_total_compras = 0
 
     def cadastrar_venda(self) -> None:
 
@@ -68,9 +60,10 @@ class CadastroVenda:
         while len(cpf) != LEN_CPF:
             print('O CPF deve conter 11 dígitos.')
             cpf = input('Digite o CPF do cliente (apenas dígitos): ')
-            while cpf not in Cliente.dic_clientes:
-                print('CPF não localizado.')
-                cpf = input('Digite o CPF do cliente (apenas dígitos): ')
+
+        while cpf not in Cliente.dic_clientes:
+            print('CPF não localizado.')
+            cpf = input('Digite o CPF do cliente (apenas dígitos): ')
         else:
             cliente = Cliente.dic_clientes[cpf].cpf
 
@@ -81,33 +74,48 @@ class CadastroVenda:
         else:
             medicamento = Medicamento.dic_medicamentos[nome_med].nome
 
-            CadastroVenda.valor_total_med_fito = 0
-
         quantidade = int(input('Digite a quantidade de unidades vendidas: '))
         valor_un  = float(input('Digite o valor unitário do medicamento: R$ '))
 
-        valor_total = quantidade * valor_un
+        valor_compra = quantidade * valor_un
+        CadastroVenda.valor_total_compras += valor_compra
         novo_produto_vendido = ProdutosVendidos(medicamento, quantidade, valor_un)
 
         if (isinstance(Medicamento.dic_medicamentos[nome_med], Fitoterapicos)):
             CadastroVenda.qt_med_fito += quantidade # quantidade de medicamentos fitoterápicos vendidos no dia 
-            CadastroVenda.valor_total_med_fito += valor_total # valor total dos medicamentos fitoterápicos vendidos no dia 
+            CadastroVenda.valor_med_fito += valor_compra # valor total dos medicamentos fitoterápicos vendidos no dia 
+
         if (isinstance(Medicamento.dic_medicamentos[nome_med], Quimioterapicos)):
-            CadastroVenda.qt_med_quimio += quantidade # quantidade de medicamentos fitoterápicos vendidos no dia 
-            CadastroVenda.valor_total_med_quimio += valor_total # valor total dos medicamentos fitoterápicos vendidos no dia 
+            CadastroVenda.qt_med_quimio += quantidade # quantidade de medicamentos quimiterápicos vendidos no dia 
+            CadastroVenda.valor_med_quimio += valor_compra # valor total dos medicamentos quimiterápicos vendidos no dia 
 
-        if CadastroVenda.carrinho_produtos == {}:
-            CadastroVenda.carrinho_produtos[cpf] += novo_produto_vendido
+        if cliente in Vendas.dict_venda:
+            Vendas.dict_venda[cliente].produtos_vendidos.append(novo_produto_vendido)
         else:
-            CadastroVenda.carrinho_produtos[cpf] = novo_produto_vendido
+            nova_venda = Vendas(data, hora, [novo_produto_vendido], cliente, valor_compra)
+            Vendas.dict_venda[cliente] = nova_venda
+        
+        print('\nQuantidade de vendas: ', CadastroVenda.qt_vendas)
+        print('Valor total vendido: R$ ', CadastroVenda.valor_total_compras)
+        print('Quantidade de remédios fitoterápicos vendidos: ', CadastroVenda.qt_med_fito)
+        print('Valor total de remédios fitoterápicos vendidos: ', CadastroVenda.valor_med_fito)
+        print('Quantidade de remédios quimiterápicos vendidos: ', CadastroVenda.qt_med_quimio)
+        print('Valor total de remédios quimiterápicos vendidos: ', CadastroVenda.valor_med_quimio)
 
-        print(data, hora, cliente, novo_produto_vendido)
-        print('Quantidade de vendas: ', CadastroVenda.qt_vendas)
-        print(CadastroVenda.carrinho_produtos)
+    def __init__(self):
+        pass
 
+    def desconto_idade():
+        pass
+
+    def desconto_valor():
+        pass
+
+    def verificar_receita():
+        pass
         # nova_venda = Vendas(data, hora, produtos_vendidos, cliente, valor_total)
         #     Vendas.dict_venda[cliente] = nova_venda
         
-        
     def relatorio_vendas(self):
-        pass
+        print(Vendas.dict_venda.values())
+            # print(value)
