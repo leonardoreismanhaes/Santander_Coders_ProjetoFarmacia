@@ -1,6 +1,8 @@
+import datetime
 from clientes import *
 from medicamentos import *
 from laboratorio import *
+from vendas import *
 
 marco = Cliente('Marco', '11111111111', '01011980')
 Cliente.dic_clientes['11111111111'] = marco
@@ -32,3 +34,17 @@ Medicamento.dic_medicamentos['Amoxicilina'] = amoxicilina
 acetilcisteina = Fitoterapicos('Acetilcisteína', 'acetilcisteína', 'EMS', '20mg/ml, xarope pediátrico, frasco com 120ml')
 Medicamento.dic_medicamentos['Acetilcisteína'] = acetilcisteina
 
+venda1 = ProdutosVendidos('Novocilin', 1, 10)
+venda2 = ProdutosVendidos('Decongex Plus', 1, 10)
+venda3 = ProdutosVendidos('Amoxicilina', 1, 10)
+venda4 = ProdutosVendidos('Acetilcisteína', 1, 10)
+
+cadvenda1 = Vendas(datetime.datetime.now().date(), datetime.datetime.now().time(), [venda1], '11111111111', 10)
+cadvenda2 = Vendas(datetime.datetime.now().date(), datetime.datetime.now().time(), [venda2], '11111111111', 10)
+cadvenda3 = Vendas(datetime.datetime.now().date(), datetime.datetime.now().time(), [venda3], '22222222222', 10)
+cadvenda4 = Vendas(datetime.datetime.now().date(), datetime.datetime.now().time(), [venda4], '33333333333', 10)
+
+Vendas.dict_venda['11111111111'] = cadvenda1
+Vendas.dict_venda['11111111111'].produtos_vendidos.append(cadvenda2)
+Vendas.dict_venda['22222222222'] = cadvenda3
+Vendas.dict_venda['33333333333'] = cadvenda4
