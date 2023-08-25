@@ -7,8 +7,12 @@ class Cliente:
 
     def __init__(self, nome: str, cpf: str, dt_nascimento: str) -> None:
         self.nome = nome
-        self.cpf = cpf
+        self._cpf = cpf
         self.dt_nascimento = dt_nascimento
+
+    @property
+    def cpf(self):
+        return self._cpf
 
     def __repr__(self) -> str:
         cpf_formatado = f'{self.cpf[:3]}.***.{self.cpf[6:9]}-{self.cpf[9:]}'
