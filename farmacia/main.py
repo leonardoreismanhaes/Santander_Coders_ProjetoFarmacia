@@ -34,6 +34,7 @@ class MenuGeral:
             print('\nMenu\n1 - Clientes\n2 - Laboratórios\n3 - Medicamentos\n4 - Vendas\n0 - Sair')
             acao_menu = int(input('\nSelecione uma opção (1, 2, 3, 4, ou 0 para sair): '))
         
+        print(CadastroVenda.relatorio_vendas(self))
         print('\n=== Fim ===')
 
 class MenuCliente:
