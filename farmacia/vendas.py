@@ -40,6 +40,9 @@ class Vendas:
     
 class CadastroVenda:
 
+    def __init__(self):
+        pass
+
     qt_vendas = 0 # quantidade de vendas realizadas no dia  
     qt_med_quimio = 0 # quantidade de medicamentos quimioterápicos vendidos no dia 
     valor_med_quimio = 0 # valor total dos medicamentos quimioterápicos vendidos no dia 
@@ -77,7 +80,11 @@ class CadastroVenda:
         quantidade = int(input('Digite a quantidade de unidades vendidas: '))
         valor_un  = float(input('Digite o valor unitário do medicamento: R$ '))
 
-        valor_compra = quantidade * valor_un
+        if (quantidade * valor_un > VALOR_DESCONTO):
+            valor_compra = quantidade * valor_un * (1-PERCENTUAL_DESCONTO_VALOR)
+        else:
+            valor_compra = quantidade * valor_un
+
         CadastroVenda.valor_total_compras += valor_compra
         novo_produto_vendido = ProdutosVendidos(medicamento, quantidade, valor_un)
 
@@ -86,36 +93,26 @@ class CadastroVenda:
             CadastroVenda.valor_med_fito += valor_compra # valor total dos medicamentos fitoterápicos vendidos no dia 
 
         if (isinstance(Medicamento.dic_medicamentos[nome_med], Quimioterapicos)):
-            CadastroVenda.qt_med_quimio += quantidade # quantidade de medicamentos quimiterápicos vendidos no dia 
-            CadastroVenda.valor_med_quimio += valor_compra # valor total dos medicamentos quimiterápicos vendidos no dia 
+            verifica = input('MEDICAMENTO CONTROLADO.\nPara confirmar verificação da receita médica, favor digitar novamente o nome do medidamento: ')
+            while (medicamento != verifica):
+                print('O nome digitado não coincide com o do medicamento incluído no carrinho de compras.')
+                verifica = input('MEDICAMENTO CONTROLADO.\nPara confirmar verificação da receita médica, favor digitar novamente o nome do medidamento: ')
+            else:
+                CadastroVenda.qt_med_quimio += quantidade # quantidade de medicamentos quimiterápicos vendidos no dia 
+                CadastroVenda.valor_med_quimio += valor_compra # valor total dos medicamentos quimiterápicos vendidos no dia 
 
-        if cliente in Vendas.dict_venda:
+        if (cliente in Vendas.dict_venda):
             Vendas.dict_venda[cliente].produtos_vendidos.append(novo_produto_vendido)
         else:
             nova_venda = Vendas(data, hora, [novo_produto_vendido], cliente, valor_compra)
             Vendas.dict_venda[cliente] = nova_venda
-        
-        print('\nQuantidade de vendas: ', CadastroVenda.qt_vendas)
-        print('Valor total vendido: R$ ', CadastroVenda.valor_total_compras)
-        print('Quantidade de remédios fitoterápicos vendidos: ', CadastroVenda.qt_med_fito)
-        print('Valor total de remédios fitoterápicos vendidos: ', CadastroVenda.valor_med_fito)
-        print('Quantidade de remédios quimiterápicos vendidos: ', CadastroVenda.qt_med_quimio)
-        print('Valor total de remédios quimiterápicos vendidos: ', CadastroVenda.valor_med_quimio)
-
-    def __init__(self):
-        pass
 
     def desconto_idade():
         pass
 
-    def desconto_valor():
-        pass
-
     def verificar_receita():
         pass
-        # nova_venda = Vendas(data, hora, produtos_vendidos, cliente, valor_total)
-        #     Vendas.dict_venda[cliente] = nova_venda
         
     def relatorio_vendas(self):
-        print(Vendas.dict_venda.values())
-            # print(value)
+        representacao = f'\nQuantidade de vendas: {CadastroVenda.qt_vendas}\nValor total vendido: R$ {CadastroVenda.valor_total_compras}\nQuantidade de remédios fitoterápicos vendidos: {CadastroVenda.qt_med_fito}\nValor total de remédios fitoterápicos vendidos: {CadastroVenda.valor_med_fito}\nQuantidade de remédios quimiterápicos vendidos: {CadastroVenda.qt_med_quimio}\nValor total de remédios quimiterápicos vendidos: {CadastroVenda.valor_med_quimio}'
+        print(representacao)
