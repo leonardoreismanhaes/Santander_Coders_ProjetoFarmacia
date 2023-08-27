@@ -1,14 +1,18 @@
 from datetime import datetime
 class Cliente:
     def __init__(self, cpf: str, nome:str, dt_nascimento: str) -> None:
-        self.cpf = cpf
+        self._cpf = cpf
         self.nome = nome
         self.dt_nascimento = dt_nascimento
+
+    @property
+    def cpf(self):
+        return self._cpf
 
     def __repr__(self) -> str:
         representacao = 'Nome: ' + self.nome
         representacao += '\nCPF: ' + self.cpf
-        representacao += '\nData: ' + self.dt_nascimento
+        representacao += '\nData de Nascimento: ' + self.dt_nascimento
         return representacao
     
     def calcular_idade(self):
@@ -41,17 +45,31 @@ class CadastroCliente:
         else:
             print('CPF já cadastrado')
             
+    def _get_cliente(self, cpf):
+        if cpf in self.cadastrados:
+            return self.cadastrados[cpf]
+        else:
+            return None
+        
     def visualizar_cadastro(self, cpf):
         if cpf in self.cadastrados:
             print(self.cadastrados[cpf])
         else:
             print('Cliente não encontrado.')
             
+    def visualizar_cadastro(self, cpf) -> None:
+        cliente = self._get_cliente(cpf)
+        if cliente:
+            print(cliente)
+        else:
+            print('Cliente não encontrado')
+            
     def alterar_cadastro(self, cpf):
-        if cpf not in self.cadastrados:
+        cliente = self._get_cliente(cpf)
+        if not cliente:
             print('CPF não cadastrado')
             return
-        cliente = self.cadastrados[cpf]
+        
         alteracao = input('O que deseja alterar? ')
         
         while alteracao.lower() not in ('nome', 'nascimento', 'cpf'):
