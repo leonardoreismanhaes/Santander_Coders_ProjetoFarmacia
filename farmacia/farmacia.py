@@ -1,7 +1,10 @@
 from clientes import CadastroCliente
 from medicamentos import CadastroMedicamentos, Quimioterapicos, Fitoterapicos
+#from medicamentos import CadastroMedicamentos
 #from  import Venda
 from laboratorios import CadastroLaboratorios
+
+
 
 class Farmacia:
     def __init__(self):
@@ -21,7 +24,8 @@ class Farmacia:
         total_vendas = 0
         total_quimioterapicos = 0
         total_fitoterapicos = 0
-
+        total_vendas2 = len(self.vendas)
+        
         for venda in self.vendas:
             total_vendas += 1
             for produto in venda.produtos_vendidos:
@@ -42,7 +46,7 @@ class Farmacia:
         if remedio_mais_vendido:
             print("Remédio mais vendido:")
             print("Nome:", remedio_mais_vendido.nome)
-            print("Quantidade vendida:", max_quantidade)
+            print("Quantidade vendida:", total_vendas2)
             print("Valor total:", remedio_mais_vendido.preco * max_quantidade)
         else:
             print("Nenhum remédio vendido.")

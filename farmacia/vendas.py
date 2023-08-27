@@ -24,7 +24,7 @@ class Venda:
                 if isinstance(medicamento, Quimioterapicos) and medicamento.receita:
                     possui_receita = input("Este medicamento requer receita médica. Você possui uma receita? (S/N): ").lower()
                     if possui_receita == 's':
-                        # Restante do seu código para efetuar a venda
+                        
                         produtos_venda = [medicamento]
                         valor_total = medicamento.preco
 
@@ -45,7 +45,7 @@ class Venda:
                     else:
                         print("Compra não autorizada. Medicamento requer receita médica.")
                 else:
-                    # Restante do seu código para efetuar a venda (sem a verificação de receita)
+                    
                     produtos_venda = [medicamento]
                     valor_total = medicamento.preco
 

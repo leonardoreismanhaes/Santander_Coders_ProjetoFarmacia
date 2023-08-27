@@ -88,9 +88,9 @@ def main():
                        
         elif opcao == "4":
             Venda.efetuar_venda(farmacia)
-            if len(farmacia.vendas) > 0:
-                ultima_venda = farmacia.vendas[-1]
-                ultima_venda.imprimir_venda()
+            # if len(farmacia.vendas) > 0:
+            #     ultima_venda = farmacia.vendas[-1]
+            #     ultima_venda.imprimir_venda()
         elif opcao == "5":
             farmacia.emitir_relatorio()
         elif opcao == "6":
